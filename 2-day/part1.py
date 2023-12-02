@@ -11,7 +11,7 @@ with open('2-day/data.txt', 'r') as file:
 
 pattern = re.compile(r'(\d+)\s*([a-zA-Z]+)')
 
-def game_config(game):
+def game_possible(game):
     matches = pattern.findall(game)
     for number, colour in matches:
         if int(number) > colour_map[colour]:
@@ -21,8 +21,6 @@ def game_config(game):
 if '__main__' == __name__:
     game_id_sum = 0
     for index, game in enumerate(data):
-        if game_config(game):
-            game_id_sum += index + 1
-            
-    # print(data)
+        if game_possible(game):
+            game_id_sum += index + 1            
     print(game_id_sum)
