@@ -38,6 +38,7 @@ for i, line in enumerate(lines):
         for k in range(start-1, j+1):
             is_symbol(i-1, k, number) or is_symbol(i+1, k, number)
 
+# Loop over gear list. If len is 2 then two elements is adjacent.
 for i in range(n):
     for j in range(m):
         numbers = gear[i][j]

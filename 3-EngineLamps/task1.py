@@ -1,8 +1,5 @@
-import numpy as np
-
 with open('data.txt', 'r') as file:
     lines = file.read().split('\n')
-
 
 n = len(lines)
 m = len(lines[0])
