@@ -1,7 +1,7 @@
 import re
 from math import prod 
 
-with open('2-day/data.txt', 'r') as file:
+with open('data.txt', 'r') as file:
     games = file.read().split('\n')
 
 pattern = re.compile(r'(\d+)\s*([a-zA-Z]+)')

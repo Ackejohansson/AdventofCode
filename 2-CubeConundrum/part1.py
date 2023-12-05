@@ -6,7 +6,7 @@ colour_map = {
     'blue': 14,
 }
 
-with open('2-day/data.txt', 'r') as file:
+with open('data.txt', 'r') as file:
     data = file.read().split('\n')
 
 pattern = re.compile(r'(\d+)\s*([a-zA-Z]+)')
