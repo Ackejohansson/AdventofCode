@@ -9,7 +9,6 @@ with open(file_path, 'r') as file:
     file = file.read().split('\n')
 data = np.array([row[10:] for row in file])
 
-
 # Split the data at |
 split = np.array(np.char.split(data, '|').tolist())
 left, right = split[:,0], split[:, 1]
