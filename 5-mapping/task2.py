@@ -1,7 +1,12 @@
-seeds, *blocks = open(0).read().split('\n\n')
+input, *blocks = open(0).read().split('\n\n')
 
-seeds = list(map(int, seeds.split(":")[1].split()))
+input = list(map(int, input.split(":")[1].split()))
 
+seeds = []
+for i in range(0, len(input), 2):
+    seeds.append((input[i], input[i]+input[i+1]))
+    
+exit(0)
 for block in blocks:
     ranges = []
     for line in block.splitlines()[1:]:
