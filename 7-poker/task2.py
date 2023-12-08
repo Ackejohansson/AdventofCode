@@ -16,13 +16,9 @@ def classify(hand):
     if 4 in counts:
         return 5
     if 3 in counts:
-        if 2 in counts:
-            return 4
-        return 3
+        return 4 if 2 in counts else 3
     if 2 in counts:
-        if counts.count(2) == 4:
-            return 2
-        return 1
+        return 2 if counts.count(2) == 4 else 1
     return 0
     
 
