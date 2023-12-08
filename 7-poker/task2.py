@@ -1,17 +1,13 @@
 strength_map = {"T":"A", "J":"0", "Q":"C", "K":"D", "A":"E"}
 
 def classify(hand):
-    print(hand)
     nr_j = hand.count("J")
     if nr_j == 5:
         return 6
-    hand = hand.replace('J', '')
-    counts = [hand.count(card) for card in hand]
+    counts = [hand.count(card) if card != "J" else 0 for card in hand]
 
-    max_index = counts.index(max(counts))
-    value = hand[max_index]
-
-    hand += nr_j*str(value)
+    value = hand[counts.index(max(counts))]
+    hand = hand.replace('J', f'{value}')
     
     counts = [hand.count(card) for card in hand]
 
