@@ -15,6 +15,7 @@ for line in rest:
 
 keys = [key for key in network if key.endswith("A")]
 
+# Find the cycle length of each starting position
 cycles = []
 for position in keys:
     step_count = 0
@@ -25,6 +26,7 @@ for position in keys:
         step_count +=1
     cycles.append(step_count)
 
+# Find LCM
 result = 1
 for number in cycles:
     result = number * result // gcd(number, result)
