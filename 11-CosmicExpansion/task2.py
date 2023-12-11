@@ -15,8 +15,8 @@ rows, cols = np.where(data == '#')
 points = list(zip(rows, cols))
 
 dist = 0
-# Minus 1 since the empty cols are already added from the abs(i-i2)
-scale = 1000000 - 1
+empty_already_added = 1
+scale = 1000000 - empty_already_added
 
 for index, (i,j) in enumerate(points):
     for i2, j2 in points[:index]:
