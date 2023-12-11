@@ -29,7 +29,7 @@ for position in keys:
 # Find LCM
 result = 1
 for number in cycles:
-    result = number * result // gcd(number, result)
+    result *= number // gcd(number, result)
 
 print(result)
 
