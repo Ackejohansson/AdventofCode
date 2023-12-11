@@ -4,11 +4,10 @@ file_name = "data.txt"
 dir_path = os.path.dirname(__file__)
 file_path = os.path.join(dir_path, file_name)
 
-network = {}
-
 with open(file_path, 'r') as file:
     steps, _, *rest = file.read().splitlines()
 
+network = {}
 for line in rest:
     pos, target = line.split(" = ")
     network[pos] = target[1:-1].split(", ")

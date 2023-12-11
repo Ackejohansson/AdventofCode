@@ -1,4 +1,10 @@
-seeds, *blocks = open(0).read().split('\n\n')
+import os
+file_name = "data.txt"
+dir_path = os.path.dirname(__file__)
+file_path = os.path.join(dir_path, file_name)
+
+with open(file_path, 'r') as file:
+    seeds, *blocks = file.read().split('\n\n')
 
 seeds = list(map(int, seeds.split(":")[1].split()))
 
