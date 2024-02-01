@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-file = 'data.txt'
+file = 'zztest_data.txt'
 dir_path = os.path.dirname(__file__)
 file_path = os.path.join(dir_path, file)
 
