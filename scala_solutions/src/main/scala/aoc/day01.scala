@@ -32,7 +32,22 @@ object Day01 extends ZIOAppDefault {
   def part2(
       stream: ZStream[Any, Throwable, String]
   ): ZIO[Any, Throwable, Long] = {
-    ZIO.succeed(10)
+      stream
+      .runFold((50, 0)) { case ((curr, count), line) =>
+        val direction = line.head
+        val step = line.drop(1).toInt
+
+        val diff = if direction == 'R' then step else -step
+        val offset = if direction == 'R' then 0 else -1
+
+        val currMod = Math.floorDiv(curr + offset, 100)
+        val nextMod = Math.floorDiv(curr + diff + offset, 100)
+
+        val newCount = (nextMod - currMod).abs
+        
+        (curr + diff, count + newCount)
+      }
+      .map { case (curr, count) => count }
   }
   override def run: ZIO[Any, Any, Any] = {
     for {
