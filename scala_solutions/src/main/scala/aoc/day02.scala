@@ -14,12 +14,24 @@ object Day02 extends ZIOAppDefault {
       case _                 => throw new RuntimeException(s"BAD INPUT")
     }
   }
-  def filterDuplicates(number: Long): Boolean = {
+
+  def task1Filter(number: Long): Boolean = {
     val numberStr = number.toString
-    if (numberStr.length % 2 != 0) return false
-    val splitIndex = numberStr.length / 2
-    val nr = numberStr.splitAt(splitIndex)
-    nr(0) == nr(1)
+
+    numberStr.length % 2 == 0 && {
+      val (left, right) = numberStr.splitAt(numberStr.length / 2)
+      left == right
+    }
+  }
+
+  def task2Filter(number: Long): Boolean = {
+    val nrStr = number.toString
+    val possibleSplits =
+      (1 to nrStr.length / 2).filter(x => nrStr.length % x == 0)
+
+    possibleSplits.exists { k =>
+      nrStr.take(k) * (nrStr.length / k) == nrStr
+    }
   }
 
   val inputStream = ZStream
@@ -30,13 +42,16 @@ object Day02 extends ZIOAppDefault {
     .flatMap { case (start, end) =>
       ZStream.iterate(start)(_ + 1L).takeWhile(_ <= end)
     }
-    .filter(filterDuplicates)
+    .filter(task2Filter)
 
   override def run = {
     for {
       _ <- Console.printLine("--- DAY 2 Start ---")
-      p1 <- inputStream.tap(line => ZIO.debug(s"Line: $line")).runSum
-      _ <- Console.printLine(s"Solution: $p1")
+      p1 <- inputStream.filter(task1Filter).runSum
+      _ <- Console.printLine(s"First: $p1")
+      p2 <- inputStream.filter(task2Filter).runSum
+      _ <- Console.printLine(s"Second: $p2")
+
     } yield ()
   }
 }
