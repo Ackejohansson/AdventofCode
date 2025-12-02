@@ -47,15 +47,11 @@ fn filter2(number: i64) -> bool {
 }
 
 fn solution(input: &[DataRange], filter: fn(i64) -> bool) -> i64 {
-    let mut sum: i64 = 0;
-    for dr in input {
-        for number in dr.min..=dr.max {
-            if filter(number) {
-                sum += number;
-            }
-        }
-    }
-    sum
+    input
+        .iter()
+        .flat_map(|dr| dr.min..=dr.max)
+        .filter(|&n| filter(n))
+        .sum()
 }
 
 fn main() {
