@@ -1,9 +1,5 @@
 use std::fs;
 
-fn get_input() -> String {
-    fs::read_to_string("../inputs/day03.txt").expect("Input not found")
-}
-
 fn p1(input: &String) -> u32 {
     let mut sum = 0;
     for line in input.lines() {
@@ -22,35 +18,36 @@ fn p1(input: &String) -> u32 {
         }
         sum += dbg!(left * 10 + right);
     }
-    sum
+    return sum;
 }
-fn p2(input: &String, num_len: usize) -> i64 {
-    // Solve with monolitic stack.
-    let mut sum: i64 = 0;
-    for line in input.lines() {
-        let mut drops_left = line.len() - num_len;
-        let mut stack: Vec<u32> = Vec::new();
-        let nums: Vec<u32> = line.chars().filter_map(|c| c.to_digit(10)).collect();
 
-        for num in nums {
-            while drops_left > 0 && !stack.is_empty() && num > *stack.last().unwrap() {
-                stack.pop();
-                drops_left -= 1;
-            }
-            stack.push(num);
+fn solve_single_line(line: &str, num_len: usize, stack: &mut Vec<u32>) -> i64 {
+    stack.clear();
+    let mut drops_left = line.len() - num_len;
+
+    for num in line.chars().filter_map(|c| c.to_digit(10)) {
+        while drops_left > 0 && !stack.is_empty() && num > *stack.last().unwrap() {
+            stack.pop();
+            drops_left -= 1;
         }
-        stack.truncate(num_len);
-        let new: String = stack.iter().map(|num| num.to_string()).collect();
-        println!("Stack: {}", new);
-        let num: i64 = new.parse().expect("Bad number");
-        sum += num;
+        stack.push(num);
     }
-    sum
+
+    stack.truncate(num_len);
+    stack.iter().fold(0, |acc, &num| acc * 10 + num as i64)
+}
+
+fn p2(input: &str, num_len: usize) -> i64 {
+    let mut stack: Vec<u32> = Vec::with_capacity(num_len);
+    input
+        .lines()
+        .map(|line| solve_single_line(line, num_len, &mut stack))
+        .sum()
 }
 
 fn main() {
     println!("--- DAY 3 ---");
-    let input = get_input();
+    let input = fs::read_to_string("../inputs/day03.txt").expect("Input not found");
     let p1 = p1(&input);
     println!("Solution 1: {}", p1);
     let p2 = p2(&input, 12);
