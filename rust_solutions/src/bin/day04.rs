@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fs, i32, iter::Inspect};
+use std::{collections::HashMap, fs};
 
 const DIRECTIONS: [(i32, i32); 8] = [
     (-1, 1),
@@ -63,28 +63,33 @@ fn build_grid(input: &str) -> HashMap<Position, Tile> {
 fn part_one(grid: &HashMap<Position, Tile>) -> i32 {
     grid.iter()
         .filter(|(pos, tile)| -> bool { **tile == Tile::Paper && pos.paper_neighbors(&grid) < 4 })
-        .inspect(|(pos, tile)| println!("Caught tile:{:?}, pos {:?}", tile, pos))
         .count() as i32
 }
+
 fn part_two(grid: &mut HashMap<Position, Tile>) -> i32 {
     let mut total_removed = 0;
+    let mut to_remove: Vec<Position> = Vec::new();
     loop {
-        let to_remove: Vec<Position> = grid
-            .iter()
-            .filter(|(pos, tile)| **tile == Tile::Paper && pos.paper_neighbors(&grid) < 4)
-            .map(|(pos, _)| *pos)
-            .collect();
+        to_remove.clear();
+
+        to_remove.extend(
+            grid.iter()
+                .filter(|(pos, tile)| **tile == Tile::Paper && pos.paper_neighbors(&grid) < 4)
+                .map(|(pos, _)| *pos),
+        );
+
         if to_remove.is_empty() {
             break;
         }
         total_removed += to_remove.len();
 
-        to_remove.iter().for_each(|pos| {
-            grid.remove(&pos);
-        });
+        for pos in &to_remove {
+            grid.remove(pos);
+        }
     }
     total_removed as i32
 }
+
 fn main() {
     let input: String = fs::read_to_string("../inputs/day04.txt").expect("File not found");
     let mut grid: HashMap<Position, Tile> = build_grid(&input);
