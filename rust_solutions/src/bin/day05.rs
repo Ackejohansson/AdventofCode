@@ -12,25 +12,24 @@ fn p1(ranges: &Vec<RangeInclusive<i64>>, num: &str) -> usize {
 
 fn p2(mut ranges: Vec<RangeInclusive<i64>>) -> i64 {
     ranges.sort_by_key(|k| *k.start());
-
     let mut iter = ranges.into_iter();
-    let first = match iter.next() {
-        Some(r) => r,
-        None => return 0,
-    };
 
+    let first = iter.next().unwrap();
     let mut total = first.end() - first.start() + 1;
     let mut last_idx = *first.end();
 
     for range in iter {
-        if range.start() <= &last_idx {
-            if range.end() > &last_idx {
-                total += range.end() - last_idx;
-                last_idx = *range.end();
+        let start = *range.start();
+        let end = *range.end();
+
+        if start <= last_idx {
+            if end > last_idx {
+                total += end - last_idx;
+                last_idx = end;
             }
         } else {
-            total += range.end() - range.start() + 1;
-            last_idx = *range.end();
+            total += end - start + 1;
+            last_idx = end;
         }
     }
     return total;
